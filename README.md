@@ -1,2 +1,2 @@
 # SampleProject2
-sample of MVC Project
+Sample of MVC ASP.NET Project
