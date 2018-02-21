@@ -1,0 +1,12 @@
+﻿
+@{
+
+
+    if (Session["UserID"] == null)
+    {
+        Response.Redirect("~/Home/index");
+    }
+}
+
+<h2>Welcome to the Dashboard</h2>
+<a class="btn btn-link" href="@Url.Action("Logout","Home") "role="button">Logout</a>
