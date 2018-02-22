@@ -11,28 +11,16 @@ namespace SampleProject2.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-
-    public partial class User
+    
+    public partial class Member
     {
+        public int MemberID { get; set; }
+        public string MemberName { get; set; }
+        public string MemberRelation { get; set; }
+        public string MemberAddress { get; set; }
         public int UserID { get; set; }
-
-        [DisplayName("User Name")]
-
-        [Required(ErrorMessage = "you need a User Name")]
-
-        public string UserName { get; set; }
-
-        [DisplayName("Password")]
-
-        [Required(ErrorMessage = "you need a password")]
-
-        [DataType(DataType.Password)]
-
-        public string UserPassword { get; set; }
-
-
-        public string LoginErrorMsg { get; set; }
+    
+        public virtual Member Member1 { get; set; }
+        public virtual Member Member2 { get; set; }
     }
 }

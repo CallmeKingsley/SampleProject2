@@ -26,5 +26,6 @@ namespace SampleProject2.Models
         }
     
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Member> Members { get; set; }
     }
 }

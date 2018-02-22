@@ -4,7 +4,17 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SampleProjectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SampleProjectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="MemberID" />
+          </Key>
+          <Property Name="MemberID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberName" Type="varchar" MaxLength="50" />
+          <Property Name="MemberRelation" Type="varchar" MaxLength="50" />
+          <Property Name="MemberAddress" Type="varchar" MaxLength="50" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserID" />
@@ -13,11 +23,27 @@
           <Property Name="UserName" Type="varchar" MaxLength="50" />
           <Property Name="UserPassword" Type="varchar" MaxLength="50" />
         </EntityType>
+        <Association Name="FK_Member_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Member1" Type="Self.Member" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="Member1">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SampleProjectModelStoreContainer">
+          <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Member_Member" Association="Self.FK_Member_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Member1" EntitySet="Member" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SampleProjectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -31,7 +57,36 @@
         </EntityType>
         <EntityContainer Name="SampleProjectEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="Members" EntityType="SampleProjectModel.Member" />
+          <AssociationSet Name="FK_Member_Member" Association="SampleProjectModel.FK_Member_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Member1" EntitySet="Members" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="MemberID" />
+          </Key>
+          <Property Name="MemberID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MemberRelation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MemberAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Member1" Relationship="SampleProjectModel.FK_Member_Member" FromRole="Member" ToRole="Member1" />
+          <NavigationProperty Name="Member2" Relationship="SampleProjectModel.FK_Member_Member" FromRole="Member1" ToRole="Member" />
+        </EntityType>
+        <Association Name="FK_Member_Member">
+          <End Type="SampleProjectModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="SampleProjectModel.Member" Role="Member1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="Member1">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -44,6 +99,17 @@
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="SampleProjectModel.Member">
+              <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="MemberAddress" ColumnName="MemberAddress" />
+                <ScalarProperty Name="MemberRelation" ColumnName="MemberRelation" />
+                <ScalarProperty Name="MemberName" ColumnName="MemberName" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
