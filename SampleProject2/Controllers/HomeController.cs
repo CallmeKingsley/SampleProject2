@@ -32,6 +32,7 @@ namespace SampleProject2.Controllers
                 else
                 {
                     Session["UserID"] = userDetails.UserID;
+                    Session["Name"] = userDetails.UserName;
 
                     return RedirectToAction("index", "DashBoard");
                 }
