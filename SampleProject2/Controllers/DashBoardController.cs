@@ -17,6 +17,7 @@ namespace SampleProject2.Controllers
 
 
 
+
         IEnumerable<Member> GetAllMember()
         {
             using (SampleProjectEntities db = new SampleProjectEntities())
