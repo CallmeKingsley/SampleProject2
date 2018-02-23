@@ -15,6 +15,8 @@ namespace SampleProject2.Controllers
             return View(GetAllMember());
         }
 
+
+
         IEnumerable<Member> GetAllMember()
         {
             using (SampleProjectEntities db = new SampleProjectEntities())
